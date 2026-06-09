@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import org.springframework.http.HttpMethod;
 
 @Configuration
 @EnableWebSecurity
@@ -41,6 +42,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll() // otwarty dostep do rejestracji i logowania
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**", "/swagger-ui.html").permitAll() // otwarty swagger do testow
+                .requestMatchers(HttpMethod.GET, "/api/books").permitAll() // mozliwosc przegladania ksiazek nie bedac zalogowanym
                 .anyRequest().authenticated() // reszta wymaga logowania
             )
             .httpBasic(Customizer.withDefaults()); // logowanie http basic
